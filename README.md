@@ -1,113 +1,43 @@
-# Demo dApps for Polymer
-
-Welcome to the official repository for [Polymer](https://polymerlabs.org) demo applications! This repository serves as a centralized hub for the official (maintained by the Polymer Labs team and used in the official docs) demo apps, showcasing the capabilities and use cases of Polymer x [IBC](https://ibcprotocol.dev) interoperability.
-
-### 🦸🏼🦸🏾‍♂️ Community projects 🦸🏾‍♀️🦸🏻
-
-We highly encourage our community to build new demos and showcase them! To help visibility of these projects, they can be added to the [community demo dApps repo](https://github.com/polymerdevs/community-demo-dapps) in the PolymerDevs GitHub org.
-
-## 📚 Documentation
-
-This repository is forked from [the IBC app template repo](https://open-ibc/ibc-app-solidity-template) so check it out if you haven't or find its docs [here](ibc-app-template.md).
-
-There's some basic information here in the README but all of the dApps found here are documented more extensively in [the official Polymer documentation](https://docs.polymerlabs.org/docs/quickstart/start).
-
-## 📋 Prerequisites
-
-The demo dapps repository has been based off of the project structure found in the [IBC app template for Solidity](https://github.com/open-ibc/ibc-app-solidity-template) so it has the same requirements:
-
-- Have [git](https://git-scm.com/downloads) installed
-- Have [node](https://nodejs.org) installed (v18+)
-- Have [Foundry](https://book.getfoundry.sh/getting-started/installation) installed (Hardhat will be installed when running `npm install`)
-- Have [just](https://just.systems/man/en/chapter_1.html) installed (recommended but not strictly necessary)
-
-Some basic knowledge of all of these tools is also required, although the details are abstracted away for basic usage.
-
-## 🧱 Repository Structure
-
-This repository has a project structure that set it up to be compatible with the Hardhat and Foundry EVM development environments, as in the [IBC app template for Solidity repo](https://github.com/open-ibc/ibc-app-solidity-template). 
-
-The main logic specific to the dApps can be found in the `/contracts` directory:
+### Challenge-3 
+1. Add .env in root project
 ```bash
-# Example tree structure with only one custom dApp, x-ballot-nft
-contracts
-├── XCounter.sol
-├── XCounterUC.sol
-├── base
-│   ├── CustomChanIbcApp.sol
-│   ├── GeneralMiddleware.sol
-│   └── UniversalChanIbcApp.sol
-├── x-ballot-nft
-│   ├── XBallot.sol
-│   └── XProofOfVoteNFT.sol
-└── x-ballot-nft-UC
-    ├── XBallotUC.sol
-    └── XProofOfVoteNFTUC.sol
+# Make sure to rename this file to .env before adding your private keys!!!
+PRIVATE_KEY_1=''
+
+# Add more if your project requires more private keys
+
+# API keys for developer tooling and infra
+OP_ALCHEMY_API_KEY=''
+BASE_ALCHEMY_API_KEY=''
+OP_BLOCKSCOUT_API_KEY=''
+BASE_BLOCKSCOUT_API_KEY=''
+TENDERLY_TOKEN=''
+
+# Contract addresses last updated on 2024-03-05, for public testnet launch
+OP_DISPATCHER='0x58f1863f75c9db1c7266dc3d7b43832b58f35e83'
+BASE_DISPATCHER='0xfc1d3e02e00e0077628e8cc9edb6812f95db05dc'
+
+OP_UC_MW='0x34a0e37cCCEdaC70EC1807e5a1f6A4a91D4AE0Ce'
+BASE_UC_MW='0x50E32e236bfE4d514f786C9bC80061637dd5AF98'
+
+# Contract addresses for the sim-client
+OP_DISPATCHER_SIM="0x6C9427E8d770Ad9e5a493D201280Cc178125CEc0"
+BASE_DISPATCHER_SIM="0x0dE926fE2001B2c96e9cA6b79089CEB276325E9F"
+
+OP_UC_MW_SIM='0xC3318ce027C560B559b09b1aA9cA4FEBDDF252F5'
+BASE_UC_MW_SIM='0x5031fb609569b67608Ffb9e224754bb317f174cD'
+
+# You can customize another config file by changing the CONFIG_PATH
+CONFIG_PATH='config/x-secret-message-UC.json'
 ```
 
-The `/contracts` directory always contains a `/base` directory where custom developed contract will inherit from to quickly get IBC compatibility. Additionally, you'll find the x-counter example from the IBC app template repo.
-
-The additional folders are the custom developed applications.
-
-## 🦮 Dependency management
-
-This repo depends on Polymer's [vibc-core-smart-contracts](https://github.com/open-ibc/vibc-core-smart-contracts) which are tracked as git submodules. 
-
-There are two ways to install these dependencies.
-
-### Using IBC app template just recipe
-
-If you have Node and Foundry installed, simply run:
+2. Install package
 ```bash
 just install
 ```
 
-To install the required dependencies.
-
-### Using git submodules directly
-
-If you prefer not to use Foundry / Forge, you can use git submodules directly.
-
-After cloning the repo, run this command additionally:
+3. Run script contract
 ```bash
-git submodule update --init --recursive
+just do-challenge-3 
 ```
-
-Find more documentation on using git submodules from the [official docs](https://git-scm.com/book/en/v2/Git-Tools-Submodules) or [in this tutorial](https://www.atlassian.com/git/tutorials/git-submodule).
-
-Also run `npm install` additionally.
-
-## 💻 Interacting with demos
-
-To interact with any of the demos, there's a couple of things to do. (Assuming the dependencies have been installed).
-
-1. Convert the `.env.example` file into an `.env` file. This will ignore the file for future git commits as well as expose the environment variables. Add your private keys and update the other values if you want to customize (advanced usage feature).
-
-2. Check out the configuration file; `config.json` or the alternate configs in the `/config` directory. Depending on which application you'll want to interact with, update the contract type in the `deploy` field to the desired contract (use the `just set-contracts` recipe for that). For example, when interacting with x-ballot-nft-UC you would put 'XBallotUC' and 'XProofOfVoteNFTUC' for optimism or base (which one you pick where does not matter).
-
-3. Once the configuration file is updated and saved, you can look at the `just` commands with `just --list`. Alternatively follow the instructions in [the official Polymer documentation](https://docs.polymerlabs.org/docs/quickstart/start).
-
-## 🤝 Contributing
-
-We welcome and encourage contributions from our community! Here’s how you can contribute.
-
-### Option 1: Improve IBC Solidity app template
-
-Have ideas how to improve the project environment itself, not just application logic? Feel free to drop an issue or a PR (after forking) in the [IBC app template for Solidity](https://github.com/open-ibc/ibc-app-solidity-template) repository.
-
-### Option 2: Contribute to Polymer official demo-dapps
-
-Have you seen an issue with any of the demo apps listed in this repo? Feel free to drop an issue or implement the changes yourself. Also if you feel you have a great addition that could live in the official docs, drop a PR and we'll investigate (it's possible we'll ask you to add it to the [community demo dApps repo](https://github.com/polymerdevs/community-demo-dapps) instead).
-
-Please follow these steps when you do submit code changes:
-
-1. **Fork the Repository:** Start by forking this repository.
-2. **Add Your Demo App or make changes:** Place your demo app in the `/contracts` directory (separate directory for your project) or update the code that can be improved.
-3. **Create a Pull Request:** Once you've added your demo or updated the code, create a pull request to the main repository with a detailed description of your app.
-
-## 💡 Questions or Suggestions?
-
-Feel free to open an issue for questions, suggestions, or discussions related to this repository. For further discussion as well as a showcase of some community projects, check out the [Polymer developer forum](https://forum.polymerlabs.org).
-
-Thank you for being a part of our community!
-
+4. Take evidence and send to `# proof` channel

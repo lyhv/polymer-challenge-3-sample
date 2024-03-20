@@ -102,3 +102,14 @@ clean-all:
     rm -rf artifacts cache
     forge clean
     rm -rf node_modules
+
+send-secret-info SOURCE:
+    echo "Sending an IBC packet with secret message"
+    node scripts/private/_send-secret-info-config.js {{SOURCE}}
+
+do-challenge-3:
+    echo "Running the full send secret message flow..."
+    just deploy optimism optimism
+    just sanity-check
+    just send-packet optimism
+    echo "You've done it!"
